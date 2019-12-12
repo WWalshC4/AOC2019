@@ -38,3 +38,17 @@ for k,v in pairs (input) do
 end
 
 print (runTape (day1aTape))
+
+for noun = 1, 100 do
+	for verb = 1, 100 do
+		local tape = {}
+		for k,v in pairs (input) do
+			tape [k] = v
+		end
+		tape [2] = noun
+		tape [3] = verb
+		if (runTape (tape) == 19690720) then
+			print (noun, verb)
+		end
+	end
+end
