@@ -328,16 +328,16 @@ function MoveDroid (tape)
 
 	local undo = {
 		N = 'S',
-		E = 'W',
-		W = 'E',
 		S = 'N',
+		W = 'E',
+		E = 'W',
 	}
 
 	local moveDirs = {
 		N = 1,
-		E = 4,
-		W = 3,
 		S = 2,
+		W = 3,
+		E = 4,
 	}
 
 	local unknowns
@@ -485,12 +485,10 @@ end
 local grid, history = MoveDroid (inputTape)
 
 function fillOxygen (grid)
-	local full = false
 	local steps = 0
 
-	while (full == false) do
-		steps = steps + 1
-		full = true
+	while (true) do
+		local full = true
 		local newGrid = CopyTable (grid)
 
 		for y, xLine in pairs (grid) do
@@ -517,9 +515,14 @@ function fillOxygen (grid)
 		end
 
 		grid = newGrid
+
+		if (full) then
+			return steps
+		else
+			steps = steps + 1
+		end
 	end
-	return steps
 end
 
 local steps = fillOxygen (grid)
-print (steps)
+print (steps)	--364
