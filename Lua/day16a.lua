@@ -18,14 +18,27 @@ function buildTable (dataString)
 	return data
 end
 
-function phase (input, patternTable)
+function phase (input, patternTable, pattern)
 	local data = {}
 
 	for i, _ in ipairs (input) do
 		local thisVal = 0
 		for index, val in ipairs (input) do
-			local patternVal = patternTable [i] [index]
-			thisVal = thisVal + (val * patternVal)
+
+			if (patternTable) then
+				local patternVal = patternTable [i] [index]
+				thisVal = thisVal + (val * patternVal)
+			else
+
+				local patternIndex = (#input * i) + index
+				patternIndex = math.floor (patternIndex / i)
+
+				patternIndex = patternIndex % #pattern
+				patternIndex = patternIndex + 1
+
+				local patternVal = pattern [patternIndex]
+				thisVal = thisVal + (val * patternVal)
+			end
 		end
 
 		local newVal = math.abs (thisVal) % 10
@@ -69,7 +82,7 @@ function FFT (data, pattern, count)
 	end
 
 	for i = 1, count do
-		input = phase (input, patternTable)
+		input = phase (input, nil, pattern)
 	end
 
 	return input
